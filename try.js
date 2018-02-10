@@ -49,7 +49,7 @@ function check_word_limit() {
 }
 
 //function to divide document into noun, adjectieves, verb, adverb
-function document_token(document, arr) {
+/*function document_token(document, arr) {
 	//counting nouns
 	wordpos.getNouns(document, function (result) {
 		arr[0] = result.length;
@@ -66,8 +66,7 @@ function document_token(document, arr) {
 	wordpos.getAdverbs(document, function (result) {
 		arr[3] = result.length;
 	});
-}
-
+}*/
 
 function x(document) {
 	return new Promise((resolve, reject) => {
@@ -99,9 +98,45 @@ function x(document) {
 
 
 x(standard_document).then((message) => {
-		for (var i = 0; i < 4; i++) {
-			console.log("Printing here:" + standard_token_array[i]);
+		function y(document) {
+			return new Promise((resolve, reject) => {
+				wordpos.getNouns(document, function (result) {
+					mydocument_token_array[0] = result.length;
+				});
+
+				wordpos.getAdjectives(document, function (result) {
+					mydocument_token_array[1] = result.length;
+				});
+
+				wordpos.getVerbs(document, function (result) {
+					mydocument_token_array[2] = result.length;
+				});
+
+				wordpos.getAdverbs(document, function (result) {
+					mydocument_token_array[3] = result.length;
+					resolve("completed");
+				});
+
+				var n = 0;
+				if (n == 1) {
+					reject("failed");
+
+				}
+			});
 		}
+
+
+
+		y(my_document).then((message) => {
+				calculate_token_variation();
+				json_creation();
+			})
+			.catch((message) => {
+
+				console.log("****************Failed**********************");
+			});
+
+
 	})
 	.catch((message) => {
 
@@ -186,32 +221,45 @@ calculate_similarity();
 checking_spelling();
 checking_keywords();
 
-let output = {
-	myjsonobj: {
-		no_of_words: {
-			standard: countwords_standard,
-			user_doc: countwords_my
-		},
+function json_creation() {
 
-		word_limit_ok: is_word_limit_ok,
-		remark_to_reject: remark_to_reject_due_to_count,
-		similarity_btw_document: similarity,
-		spelling: {
-			no_of_mistakes: mistakes,
-			incorrect_words: incorrectWords
-		},
-		coreconcept: {
-			no_extra_marks: extra_marks_given,
-			concept_covered: concept_covered
+	let output = {
+		myjsonobj: {
+			no_of_words: {
+				standard: countwords_standard,
+				user_doc: countwords_my
+			},
+
+			word_limit_ok: is_word_limit_ok,
+			remark_to_reject: remark_to_reject_due_to_count,
+			similarity_btw_document: similarity,
+			spelling: {
+				no_of_mistakes: mistakes,
+				incorrect_words: incorrectWords
+			},
+			core_concept: {
+				no_extra_marks: extra_marks_given,
+				concept_covered: concept_covered
+			},
+			part_of_speech: {
+				standard_speech: standard_token_array,
+				user_doc_speech: mydocument_token_array
+			},
+			part_of_speech_variation: {
+				noun_variation: noun_covered,
+				adjective_variation: adjectives_covered,
+				verb_variation: verbs_covered,
+				adverb_variation: adjectives_covered
+			}
 		}
-	}
-};
+	};
 
-let json = JSON.stringify(output, null, 2);
-fs.writeFile('myjsondata.json', json, 'utf8', (err) => {
-	if (err) {
-		console.log("error");
-		return;
-	}
-	console.log("success");
-})
+	let json = JSON.stringify(output, null, 2);
+	fs.writeFile('myjsondata.json', json, 'utf8', (err) => {
+		if (err) {
+			console.log("error");
+			return;
+		}
+		console.log("success");
+	})
+}

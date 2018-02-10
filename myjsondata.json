@@ -499,7 +499,7 @@
         "docs"
       ]
     },
-    "coreconcept": {
+    "core_concept": {
       "no_extra_marks": 59,
       "concept_covered": [
         "a",
@@ -562,6 +562,26 @@
         "ul",
         "video"
       ]
+    },
+    "part_of_speech": {
+      "standard_speech": [
+        403,
+        159,
+        209,
+        63
+      ],
+      "user_doc_speech": [
+        223,
+        99,
+        98,
+        33
+      ]
+    },
+    "part_of_speech_variation": {
+      "noun_variation": 44.66501240694789,
+      "adjective_variation": 37.735849056603776,
+      "verb_variation": 53.110047846889955,
+      "adverb_variation": 37.735849056603776
     }
   }
 }

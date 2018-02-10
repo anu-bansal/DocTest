@@ -16,7 +16,7 @@ function getData() {
 			var no_of_mistakes= JSON.stringify(myarr.myjsonobj.spelling.no_of_mistakes);
       var incorrect_words= JSON.stringify(myarr.myjsonobj.spelling.incorrect_words);
 			var extra_marks= JSON.stringify(myarr.myjsonobj.coreconcept.no_extra_marks);
-      var concept_covered= JSON.stringify(myarr.myjsonobj.coreconcept.concept_covered);
+      var concept_covered= JSON.stringify(myarr.myjsonobj.core_concept.concept_covered);
 			
 			document.getElementById('no_of_words_standard').innerHTML = no_of_words_standard;
 			document.getElementById('no_of_words_user').innerHTML = no_of_words_user;
