@@ -1,0 +1,136 @@
+/*var list=['a','b','c'];
+
+function adduser(username)
+{
+	list.push(username);
+}
+
+function getuser(){
+	console.log(list);
+}
+
+
+adduser('ram');
+getuser();*/
+
+/*
+var list=['a','b','c'];
+
+function adduser(username)
+{
+	setTimeout(function(){ 
+		
+		list.push(username); }, 3000);
+	
+}
+
+function getuser(){
+	
+	
+	setTimeout(function(){ 
+		
+		console.log(list); }, 1000);
+	
+	
+}
+
+
+adduser('ram');
+getuser();
+*/
+
+
+
+/*
+var list=['a','b','c'];
+
+function adduser(username)
+{
+	setTimeout(function(){ 
+		
+		list.push(username);
+		getuser();
+	}, 3000);
+	
+	
+}
+
+function getuser(){
+	
+	
+	setTimeout(function(){ 
+		
+		console.log(list); }, 1000);
+	
+	
+}
+
+
+adduser('ram');
+*/
+
+
+
+
+
+/*var list = ['a', 'b', 'c'];
+
+function adduser(username, callback) {
+	setTimeout(function () {
+
+		list.push(username);
+		callback();
+
+	}, 3000);
+
+
+}
+
+function getuser() {
+
+
+	setTimeout(function () {
+
+		console.log(list);
+	}, 1000);
+
+
+}
+
+adduser('ram', getuser);*/
+
+
+
+var list = ['a', 'b', 'c'];
+
+function adduser(username, callback,cb2) {
+	setTimeout(function () {
+
+		list.push(username);
+		callback(cb2);
+
+	}, 3000);
+
+
+}
+
+function getuser(cb2) {
+
+
+	setTimeout(function () {
+
+		console.log(list);
+		cb2();
+	}, 1000);
+
+
+}
+
+function get() {
+
+	console.log(list);
+}
+
+
+adduser('ram', getuser,get);
+
