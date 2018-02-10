@@ -68,6 +68,48 @@ function document_token(document, arr) {
 	});
 }
 
+
+function x(document) {
+	return new Promise((resolve, reject) => {
+		wordpos.getNouns(document, function (result) {
+			standard_token_array[0] = result.length;
+		});
+
+		wordpos.getAdjectives(document, function (result) {
+			standard_token_array[1] = result.length;
+		});
+
+		wordpos.getVerbs(document, function (result) {
+			standard_token_array[2] = result.length;
+		});
+
+		wordpos.getAdverbs(document, function (result) {
+			standard_token_array[3] = result.length;
+			resolve("completed");
+		});
+
+		var n = 0;
+		if (n == 1) {
+			reject("failed");
+
+		}
+	});
+}
+
+
+
+x(standard_document).then((message) => {
+		for (var i = 0; i < 4; i++) {
+			console.log("Printing here:" + standard_token_array[i]);
+		}
+	})
+	.catch((message) => {
+
+		console.log("****************Failed**********************");
+	});
+
+
+
 //function to print noun, adjectieves, verb, adverb of user document
 function print_mydocument_token() {
 	for (var i = 0; i < 4; i++) {
@@ -145,24 +187,24 @@ checking_spelling();
 checking_keywords();
 
 let output = {
-	myjsonobj:{
-	no_of_words: {
-		standard: countwords_standard,
-		user_doc: countwords_my
-	},
+	myjsonobj: {
+		no_of_words: {
+			standard: countwords_standard,
+			user_doc: countwords_my
+		},
 
-	word_limit_ok: is_word_limit_ok,
-	remark_to_reject: remark_to_reject_due_to_count,
-	similarity_btw_document: similarity,
-	spelling: {
-		no_of_mistakes: mistakes,
-		incorrect_words: incorrectWords
-	},
-	coreconcept: {
-		no_extra_marks: extra_marks_given,
-		concept_covered: concept_covered
+		word_limit_ok: is_word_limit_ok,
+		remark_to_reject: remark_to_reject_due_to_count,
+		similarity_btw_document: similarity,
+		spelling: {
+			no_of_mistakes: mistakes,
+			incorrect_words: incorrectWords
+		},
+		coreconcept: {
+			no_extra_marks: extra_marks_given,
+			concept_covered: concept_covered
+		}
 	}
-}
 };
 
 let json = JSON.stringify(output, null, 2);
