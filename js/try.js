@@ -21,10 +21,10 @@ var remark_to_reject_due_to_count = 'null';
 
 
 //reading files required
-var my_document = fs.readFileSync('document.txt', 'utf-8');
-var standard_document = fs.readFileSync('document2.txt', 'utf-8');
-var keyWords = fs.readFileSync('keyWords.txt', 'utf-8');
-var dictionary = fs.readFileSync('dictionary.txt', 'utf-8');
+var my_document = fs.readFileSync('../otherData/document.txt', 'utf-8');
+var standard_document = fs.readFileSync('../otherData/document2.txt', 'utf-8');
+var keyWords = fs.readFileSync('../otherData/keyWords.txt', 'utf-8');
+var dictionary = fs.readFileSync('../otherData/dictionary.txt', 'utf-8');
 
 
 //counting words of user document and standard document
@@ -255,7 +255,7 @@ function json_creation() {
 	};
 
 	let json = JSON.stringify(output, null, 2);
-	fs.writeFile('myjsondata.json', json, 'utf8', (err) => {
+	fs.writeFile('../json/myjsondata.json', json, 'utf8', (err) => {
 		if (err) {
 			console.log("error");
 			return;
