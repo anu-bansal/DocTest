@@ -38,9 +38,9 @@ function check_word_limit() {
 	if (countwords_my < range1 || countwords_my > range2) {
 		is_word_limit_ok = "No";
 		if (countwords_my < range1) {
-			remark_to_reject_due_to_count = "Words are less than expected.";
+			remark_to_reject_due_to_count = "Words are less then expected.";
 		} else {
-			remark_to_reject_due_to_count = "Words are more than expected.";
+			remark_to_reject_due_to_count = "Words are more then expected.";
 		}
 		return;
 	} else {
