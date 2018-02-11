@@ -112,3 +112,9 @@
 .fjalla {
 font-family: 'Fjalla One', sans-serif;
 }
+.standard {
+	padding: 0px;
+}
+.givepadding {
+	padding-left: 10px;
+}

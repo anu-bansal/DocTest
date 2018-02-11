@@ -14,9 +14,9 @@ var mydocument_token_array = new Array(4);
 var standard_token_array = new Array(4);
 var similarity = 0;
 var mistakes = 0;
-var incorrectWords = [];
+var incorrectWords = new Array();
 var extra_marks_given = 0;
-var concept_covered = [];
+var concept_covered = new Array() ;
 var remark_to_reject_due_to_count = 'null';
 
 
