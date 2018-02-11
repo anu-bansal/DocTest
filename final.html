@@ -23,12 +23,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand text-left" href="./index.html">Doc-Test</a>
+      <a class="navbar-brand text-left fira" href="./index.html">DocTest</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#about">ABOUT</a></li>
-        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="#about" class="fira">ABOUT</a></li>
+        <li><a href="#contact" class="fira">CONTACT</a></li>
       </ul>
     </div>
   </div>
@@ -37,8 +37,8 @@
 
 <!-- Jumbotron -->
 <div class="jumbotron text-center">
-  <h1>Doc-Test</h1> 
-  <p>We are here to ease your work..</p> 
+  <h1 class="mon">Doc-Test</h1> 
+  <p class="mon">We are here to ease your work..</p> 
 </div>
 <!-- End of jumbotron -->
 
@@ -65,11 +65,11 @@
 	<!-- Stats and results -->
 	<div class="container bg-dark my-4">
 		
-		<span class="display-4">result</span>
-		<p id="overall" class=""></p>
+		<span class="display-4">Result</span>
+		<p id="overall"></p>
 		
-		<span class="display-4">percentage</span>
-		<p id="percentage" class=""></p>
+		<span class="display-4">Percentage</span>
+		<p id="percentage"></p>
 		
 		<span class="display-4">Word Limit ok or not?</span>
 		<p id="word_limit_ok1" class=""></p>
@@ -177,7 +177,7 @@
 <!-- Button to generate result -->
  <div class="container-fluid jumbotron">
   <div class="text-center">
- 		<button onclick="getData()" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Request</button>
+ 		<button onclick="getData()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Request</button>
  		<script type="text/javascript" src="frontendjs.js"></script>
  </div>
 </div>
