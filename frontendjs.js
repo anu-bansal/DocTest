@@ -35,10 +35,9 @@ function getData() {
 			document.getElementById('remark_to_reject1').innerHTML = remark_to_reject;
 			document.getElementById('similarity1').innerHTML = similarity;
 			document.getElementById('no_of_mistakes1').innerHTML = no_of_mistakes;
-
-			//document.getElementById('incorrect_words1').innerHTML = incorrect_words;
+			document.getElementById('incorrect_words1').innerHTML = incorrect_words;
 			document.getElementById('extra_marks1').innerHTML = extra_marks;
-			//document.getElementById('concept_covered1').innerHTML = concept_covered;
+			document.getElementById('concept_covered1').innerHTML = concept_covered;
 			document.getElementById('part_of_speech_standard_noun1').innerHTML = part_of_speech_standard_noun;
 			document.getElementById('part_of_speech_standard_adjective1').innerHTML = part_of_speech_standard_adjective;
 			document.getElementById('part_of_speech_standard_verb1').innerHTML = part_of_speech_standard_verb;
