@@ -1,0 +1,40 @@
+function x(document) {
+	return new Promise((resolve, reject) => {
+		wordpos.getNouns(document, function (result) {
+			standard_token_array[0] = result.length;
+		});
+
+		wordpos.getAdjectives(document, function (result) {
+			standard_token_array[1] = result.length;
+		});
+
+		wordpos.getVerbs(document, function (result) {
+			standard_token_array[2] = result.length;
+		});
+
+		wordpos.getAdverbs(document, function (result) {
+			standard_token_array[3] = result.length;
+			resolve("completed");
+		});
+
+		var n = 0;
+		if (n == 1) {
+		reject("failed");
+
+		}
+	});
+}
+
+
+
+x(standard_document).then((message) => {
+		for (var i = 0; i < 4; i++) {
+			console.log("Printing here:" + standard_token_array[i]);
+		}
+	})
+	.catch((message) => {
+
+		console.log("****************Failed**********************");
+	});
+
+
