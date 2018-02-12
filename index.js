@@ -31,10 +31,11 @@ var dictionary = fs.readFileSync('dictionary.txt', 'utf-8');
 var countwords_my = wordcount(my_document);
 var countwords_standard = wordcount(standard_document);
 
+
 //function to check word limit
 function check_word_limit() {
-	var range1 = countwords_standard - countwords_standard * 0.1;
-	var range2 = countwords_standard + countwords_standard * 0.1;
+	var range1 = countwords_standard - (countwords_standard * 0.2);
+	var range2 = countwords_standard + (countwords_standard * 0.2);
 	if (countwords_my < range1 || countwords_my > range2) {
 		is_word_limit_ok = "No";
 		if (countwords_my < range1) {
@@ -148,7 +149,6 @@ x(standard_document).then((message) => {
 //function to print noun, adjectieves, verb, adverb of user document
 function print_mydocument_token() {
 	for (var i = 0; i < 4; i++) {
-		//	console.log("Reading your file");
 		console.log(mydocument_token_array[i]);
 	}
 }
@@ -156,8 +156,6 @@ function print_mydocument_token() {
 //function to print noun, adjectieves, verb, adverb of standard document
 function print_standard_token() {
 	for (var i = 0; i < 4; i++) {
-		//	console.log("Reading standard file");
-
 		console.log(standard_token_array[i]);
 	}
 }
