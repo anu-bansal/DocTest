@@ -1,0 +1,21 @@
+{
+  "output": [
+    {
+      "wordCount": 3570,
+      "nouns": 504,
+      "adjectives": 168,
+      "verbs": 255
+    },
+    {
+      "wordCount": 3422,
+      "nouns": 889,
+      "adjectives": 211,
+      "verbs": 174
+    },
+    {
+      "nouns": 602,
+      "adjectives": 112,
+      "verbs": 111
+    }
+  ]
+}
