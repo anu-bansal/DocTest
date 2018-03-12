@@ -1,21 +1,17 @@
 //fs node js .. taking up only .txt files and natural
 var fs = require('fs');
 var natural = require('natural');
+var path = require('path');
 var tokenizer = new natural.WordTokenizer();
 //pos tagger
-var path = require("path");
- 
 var base_folder = path.join(path.dirname(require.resolve("natural")), "brill_pos_tagger");
 var rulesFilename = base_folder + "/data/English/tr_from_posjs.txt";
 var lexiconFilename = base_folder + "/data/English/lexicon_from_posjs.json";
 var defaultCategory = 'N';
- 
 var lexicon = new natural.Lexicon(lexiconFilename, defaultCategory);
 var rules = new natural.RuleSet(rulesFilename);
 var tagger = new natural.BrillPOSTagger(lexicon, rules);
 //pos tagger over
-
-//global variables to be displayed in json at end
 var evalNouns = [];
 var standardNouns = [];
 var evalAdjectives = [];
@@ -25,130 +21,77 @@ var standardVerbs = [];
 var similarNouns = [];
 var similarAdjectives = [];
 var similarVerbs = [];
-
-//document to be evaluated
-var evalDocument = fs.readFileSync('../documents/EvalDocument.txt','utf-8');
-//standard document
-var standardDocument = fs.readFileSync('../documents/StandardDocument.txt','utf-8');
-
-//tokenizing to get the word count
-//length of standard document
+var constant=20;
+var pathEvalDocument='../documents/eval.txt';
+var pathStandardDocument='../documents/standard.txt';
+//reading the documents
+var evalDocument = fs.readFileSync(pathEvalDocument,'utf-8');
+var standardDocument = fs.readFileSync(pathStandardDocument,'utf-8');
+//tokenizing the documents
 var standardTokens = tokenizer.tokenize(standardDocument);
 var evalTokens = tokenizer.tokenize(evalDocument);
-//twenty percent length relaxation
-var range = (standardTokens.length*20)/100
-//lengths of respective documents
 var standardLength = standardTokens.length;
 var evalLength = evalTokens.length;
-
+var range = (standardTokens.length*constant)/100
 if(evalLength <= standardLength-range || evalLength >= standardLength+range){
   console.log("Document size invalid");
   return;
 }
-
 else{
-  //call for calculating everything
-  calculate(standardTokens, evalTokens, end);
+  //call for calculating nouns, adjective and verbs of standard and evaluated documents
+  calculate(standardTokens,standardNouns,standardAdjectives,standardVerbs);
+  calculate(evalTokens,evalNouns,evalAdjectives,evalVerbs);
+  compare(standardNouns,evalNouns,similarNouns);
+  compare(standardAdjectives,evalAdjectives,similarAdjectives);
+  compare(standardVerbs,evalVerbs,similarVerbs);
+  writeJSON();
 }
-
-//counting nouns, adjectives and vers for both documents to compare
-function calculate(standard, evaluate, callback){
-  var standardTagged = tagger.tag(standard);
-  var evalTagged = tagger.tag(evaluate);
-  
-  //for the counting of standard document
-  for(var i=0; i < standardTagged.length; i++){ 
-    //if its a noun
-    if(standardTagged[i][1] == "NN"|"NNS"|"NNP"|"NNPS")
-      standardNouns.push(standardTagged[i][0]);
-    //if its an adjective
-    else if(standardTagged[i][1] == "JJ"|"JJR"|"JJS")
-      standardAdjectives.push(standardTagged[i][0]);
-    //if its a verb
-    else if(standardTagged[i][1] == "VB"|"VBD"|"VBG"|"VBN"|"VBP")
-      standardVerbs.push(standardTagged[i][0]);
+//function to count nouns, adjectives and verbs
+function calculate(docToken,noun,adjective,verb){
+  var tagged = tagger.tag(docToken);
+  for(var i=0; i < tagged.length; i++){
+    if(tagged[i][1] == "NN"|"NNS"|"NNP"|"NNPS")
+      noun.push(tagged[i][0]);
+    else if(tagged[i][1] == "JJ"|"JJR"|"JJS")
+      adjective.push(tagged[i][0]);
+    else if(tagged[i][1] == "VB"|"VBD"|"VBG"|"VBN"|"VBP")
+      verb.push(tagged[i][0]);
   }
-    //for the counting of evaluation document
-  for(var i=0; i < evalTagged.length; i++){ 
-    //if its a noun
-    if(evalTagged[i][1] == "NN"|"NNS"|"NNP"|"NNPS")
-      evalNouns.push(evalTagged[i][0]);
-    //if its an adjective
-    else if(evalTagged[i][1] == "JJ"|"JJR"|"JJS")
-      evalAdjectives.push(evalTagged[i][0]);
-    //if its a verb
-    else if(evalTagged[i][1] == "VB"|"VBD"|"VBG"|"VBN"|"VBP")
-      evalVerbs.push(evalTagged[i][0]);
-  
+}
+//function to compare nouns, adjectives and verbs of standard and evaluated document
+function compare(standard,evaluate,similar){
+  var spellcheck = new natural.Spellcheck(standard);
+  //comparing each noun, adjectives and verbs of evalDoc with corpus
+  for(let i = 0; i < evaluate.length; i++){
+  if(spellcheck.isCorrect(evaluate[i])){
+    similar.push(evaluate[i]);
   }
-  
-   compareNouns();
-   compareAdjectives();
-   compareVerbs();
-   end();
-  }
-
-//comparing nouns of both documents and calculating noun percentage
-function compareNouns(){
-  var corpus = standardNouns;
-  var spellcheck = new natural.Spellcheck(corpus);
-  //comparing each noun of evalDoc with corpus
-  for(let i = 0; i < evalNouns.length; i++){
-	if(spellcheck.isCorrect(evalNouns[i])){
-		similarNouns.push(evalNouns[i]);
-	}
 }   
-  
-} 
-
-function compareAdjectives(){
-  var corpus = standardAdjectives;
-  var spellcheck = new natural.Spellcheck(corpus);
-  //comparing each noun of evalDoc with corpus
-  for(let i = 0; i < evalAdjectives.length; i++){
-	if(spellcheck.isCorrect(evalAdjectives[i])){
-		similarAdjectives.push(evalAdjectives[i]);
-	}
-}   
-} 
-
-function compareVerbs(){
-  var corpus = standardVerbs;
-  var spellcheck = new natural.Spellcheck(corpus);
-  //comparing each noun of evalDoc with corpus
-  for(let i = 0; i < evalVerbs.length; i++){
-	if(spellcheck.isCorrect(evalVerbs[i])){
-		similarVerbs.push(evalVerbs[i]);
-	}
-} 
-} 
-
-
-
-//json file -- to be executed in the end
- function end(){
+}
+//function to make and write into JSON file
+ function writeJSON(){
     var score = {
 "output":[
         {
-          wordCount : standardLength,
-          nouns : standardNouns.length,
-          adjectives : standardAdjectives.length,
-          verbs : standardVerbs.length
+          standard_wordCount : standardLength,
+          standard_nouns : standardNouns.length,
+          standard_adjectives : standardAdjectives.length,
+          standard_verbs : standardVerbs.length
         }, 
         {
-          wordCount : evalLength,
-          nouns : evalNouns.length,
-          adjectives : evalAdjectives.length,
-          verbs : evalVerbs.length
+          evaluate_wordCount : evalLength,
+          evaluate_nouns : evalNouns.length,
+          evaluate_adjectives : evalAdjectives.length,
+          evaluate_verbs : evalVerbs.length
         }, {
-          nouns : similarNouns.length,
-          adjectives : similarAdjectives.length,
-          verbs : similarVerbs.length
+          similar_nouns : similarNouns.length,
+          similar_adjectives : similarAdjectives.length,
+          similar_verbs : similarVerbs.length
       }
     ]
     }
-      //object to string
+  //object to string
   var json = JSON.stringify(score, null, 2);
-  //storing it in .json file
-  fs.writeFileSync('../output.json',json)
+  //writing in json file
+  fs.writeFileSync('output.json',json);
  }
