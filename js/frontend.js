@@ -2,32 +2,28 @@ function getData(){
   var xmlHttp = new XMLHttpRequest();
   var url = "http://localhost:3000/output";
   xmlHttp.open("GET", url, true);
-  xmlHttp.send();
-  
+  xmlHttp.send();  
   xmlHttp.onreadystatechange = function() { 
       if(this.readyState == 4 && this.status == 200){
-        var obj = JSON.parse(this.responseText);
-        
+        var obj = JSON.parse(this.responseText);      
         var btn = document.getElementById('button');
         //hiding the button after click
         btn.classList.add("hide-me");
         //getting the variables from json file
         //details of standard document
-console.log(obj[0].nouns);
-        var standardNouns = obj[0].nouns;
-        var standardAdjectives = obj[0].adjectives;
-        var standardVerbs = obj[0].verbs;
-        var standardWordCount = obj[0].wordCount;
+        var standardNouns = obj[0].standard_nouns;
+        var standardAdjectives = obj[0].standard_adjectives;
+        var standardVerbs = obj[0].standard_verbs;
+        var standardWordCount = obj[0].standard_wordCount;
         //details of eval document
-        var evalNouns = obj[1].nouns;
-        var evalAdjectives = obj[1].adjectives;
-        var evalVerbs = obj[1].verbs;
-        var evalWordCount = obj[1].wordCount;
+        var evalNouns = obj[1].evaluate_nouns;
+        var evalAdjectives = obj[1].evaluate_adjectives;
+        var evalVerbs = obj[1].evaluate_verbs;
+        var evalWordCount = obj[1].evaluate_wordCount;
         //commmon properties
-        var commonNouns = obj[2].nouns;
-        var commonAdjectives = obj[2].adjectives;
-        var commonVerbs = obj[2].verbs;
-        
+        var commonNouns = obj[2].similar_nouns;
+        var commonAdjectives = obj[2].similar_adjectives;
+        var commonVerbs = obj[2].similar_verbs;      
         var total = standardAdjectives+standardNouns+standardVerbs;
         var marks = commonNouns+commonVerbs+commonAdjectives;
         var percentage = Math.round((marks/total)*100);
